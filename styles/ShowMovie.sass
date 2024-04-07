@@ -1,0 +1,69 @@
+@import 'colors'
+    
+.movieFlexbox
+    margin: 0 50px
+    display: flex
+    flex-direction: row
+    gap: 20px
+    margin: 50px 0 20px 0
+    justify-content: center
+    align-items: center
+    background-color: $black
+    color: $white
+    padding: 20px
+    .imageWrapper
+        max-width: 700px
+    .movieInfos
+        max-width: 900px
+        .flexboxRating
+            display: flex
+            flex-direction: row
+            align-items: center
+            gap: 10px
+            .flexboxRatingOption
+                display: flex
+                flex-direction: row
+                align-items: center
+                height: 25px
+                gap: 10px
+            .star-rating
+                color: #bebebe
+                font-size:2em
+            .my-star
+                cursor: pointer
+            /*créer l'étoile*/
+            .my-star::before
+                content:"\002605"
+            /*enlève le stype par défaut de l'étoile/
+            .my-star
+                font-style: unset !important
+            /*donne couleur active*/
+            .is-active
+                color:#fb8900
+            /*donne couleur hover*/
+            .my-star:not(.is-active):hover
+                color: #fb8900
+.otherMovieOptions
+    margin: 0 50px
+    button
+        font-size: 18px
+        background-color: white
+        border: 1px solid $white
+
+    textarea
+        width: 100%
+        height: 300px
+
+    .optionButtons
+        display: flex
+        flex-direction: row
+        margin:10px 0
+        justify-content: space-between
+        .commentButtons
+            display: flex
+            flex-direction: row
+            gap: 5px
+        .otherButtons
+            display: flex
+            flex-direction: row
+            gap: 5px

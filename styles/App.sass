@@ -1,0 +1,30 @@
+@import 'colors'
+@import 'fonts'
+
+body
+    background-color: $white
+    margin: 0
+
+h1, h2, h3, h4, h5
+    font-family: $font-nunito-sans
+
+.normalText
+    font-family: $font-playfair-display
+    font-size: 18px
+
+.lesserText
+    font-family: $font-playfair-display
+    font-size: 14px
+
+input, button, select
+    font-family: $font-nunito-sans
+    font-size: 18px
+    cursor: pointer
+    transition: all 0.15s ease-in-out
+    &:hover
+        transform: scale(1.05)
+
+button
+    border-radius: 3px
+    &:active 
+        transform: scale(0.9)
