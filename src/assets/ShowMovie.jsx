@@ -94,17 +94,17 @@ function ShowMovie(props) {
         fetchComment();
     }, [movieId]);
 
-    //ajoute commentaire
-    const handleAddComment = async () => {
-        await addComment(movieId, comment);
-        onComment(comment);
-      };
-    
-      //supprime commentaire
-      const handleRemoveComment = async () => {
-        await deleteComment(movieId);
-        onComment('');
-      };
+//ajoute commentaire
+const handleAddComment = async () => {
+    await addComment(movieId, comment);
+    onComment(comment);
+    };
+
+    //supprime commentaire
+    const handleRemoveComment = async () => {
+    await deleteComment(movieId);
+    onComment('');
+    };
 
     let displayMovie;
     if (currentMovie != null){
@@ -112,7 +112,7 @@ function ShowMovie(props) {
         <React.Fragment>
             <div className="movieFlexbox">
                 <div className="imageWrapper">
-                    <img src={"https://image.tmdb.org/t/p/w300" + currentMovie.poster_path}></img>
+                    <img alt="pas d'image disponible" src={"https://image.tmdb.org/t/p/w300" + currentMovie.poster_path}></img>
                 </div>
                 <div className="movieInfos">
                     <h1> {currentMovie.title} </h1>
@@ -180,16 +180,14 @@ function ShowMovie(props) {
                 </div>
             </div>
             <div className="otherMovieOptions">
-                {/* Commentaire */}
                 <div>
+                    {/* Commentaire */}
                     <h2><label htmlFor="comment">Commentaire:</label></h2>
-                    <textarea id="comment" value={comment} onChange={(e) => onComment(e.target.value)} />
+                    <textarea id="comment" value={comment ? comment : ""} onChange={(e) => onComment(e.target.value)} />
                     <div className="optionButtons">
                         <div className="commentButtons">
                             <button onClick={handleAddComment}>Enregistrer Commentaire <FontAwesomeIcon icon={faFloppyDisk} /></button>
-                            {comment && (
-                                <button className="commentButton" onClick={handleRemoveComment}>Enlever Commentaire <FontAwesomeIcon icon={faTrash} /></button>
-                            )}
+                            <button className="commentButton" onClick={handleRemoveComment}>Enlever Commentaire <FontAwesomeIcon icon={faTrash} /></button>
                         </div>
                         <div className="otherButtons">
                             {/* Favories */}

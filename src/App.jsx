@@ -75,8 +75,10 @@ function App() {
     //retourne des film recherchés
     const fetchMoviesBySearch = async () => {
       try {
-        const response = await fetch(`${baseUrl}/search/movie?query=${search}&language=fr`, options.get);
+        const response = await fetch(`${baseUrl}/search/multi?query=${search}&language=fr`, options.get);
+        //const response = await fetch(`${baseUrl}/search/movie?query=${search}&language=fr`, options.get);
         const jsonData = await response.json();
+        console.log(jsonData);
         setMovies(jsonData.results);
       } catch (error) {
         console.log("Erreur: " + error);
@@ -261,7 +263,7 @@ function App() {
     const request = objectStore.get(movieId);
     return new Promise((resolve, reject) => {
       request.onsuccess = function(event) {
-        const comment = event.target.result ? event.target.result.comment : null;
+        const comment = event.target.result ? event.target.result.comment : "";
         resolve(comment);
       };
       request.onerror = function(event) {

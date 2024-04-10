@@ -1,37 +1,23 @@
 import React from 'react';
-import moment from 'moment';
 import { useNavigate  } from 'react-router-dom';
 import '../../styles/List.sass';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from '@fortawesome/free-solid-svg-icons';
+import ListIndividualMovie from "./ListIndividualMovie";
 
 function ListMovies(props) {
     const { movies, isFavorite, favoriteMovies } = props;
     
     const navigate = useNavigate();
-    const handleMovieClick = (movie) => {
-        navigate(`/movie/${movie.id}`);
-    };
 
     //liste des films
     let displayMovies = movies?.map(movie => (
-        <li key={movie.id} className="movie" onClick={() => handleMovieClick(movie)}>
-            <img src={"https://image.tmdb.org/t/p/w300" + movie.poster_path}></img>
-            <p className="normalText">{ movie.title }</p>
-            <p className="normalText"> Date de Sortie: {moment(movie.release_date).format('DD/MM/YYYY')}</p>
-            <p className="lesserText">{isFavorite(movie.id) ? "Dans les favoris" : ""}</p>
-        </li>
+        <ListIndividualMovie key={movie.id} movie={movie} isFavorite={isFavorite} />
     ));
 
     //liste des films favoris
     let displayFavoriteMovies = favoriteMovies?.map(movie => (
-        <li key={movie.id} className="movie">
-            <a className="movieLink" onClick={() => handleMovieClick(movie)}>
-                <img src={"https://image.tmdb.org/t/p/w300" + movie.poster_path}></img>
-                <p className="normalText">{ movie.title }</p>
-                <p className="normalText"> Date de Sortie: {moment(movie.release_date).format('DD/MM/YYYY')}</p>
-            </a>
-        </li>
+        <ListIndividualMovie key={movie.id} movie={movie} isFavorite={isFavorite} />
     ));
 
     if (!displayMovies) {
