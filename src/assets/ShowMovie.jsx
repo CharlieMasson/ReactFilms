@@ -9,6 +9,7 @@ function ShowMovie(props) {
     const navigate = useNavigate();
     let { movieId } = useParams();
 
+    const [isInFavorites, setIsInFavorites] = useState(false);
     const [currentRating, setCurrentRating] = useState(0);
     const [clickedRating, setClickedRating] = useState(0); 
     //recup détails du film
@@ -16,7 +17,6 @@ function ShowMovie(props) {
         currentMovie, 
         //gestion des films favoris
         onFavorite, 
-        onUnfavorite, 
         isFavorite, 
         //gestion des notes
         onRating, 
@@ -29,8 +29,14 @@ function ShowMovie(props) {
         onComment, 
         addComment, 
         getComment,
-         deleteComment 
+        deleteComment 
     } = props;
+
+    //met à jour le state isInFavorite pour changer l'affichage du bouton
+    useEffect(() => {
+        setIsInFavorites(isFavorite(movieId));
+
+    }, [isFavorite]);
 
     //renvoie movieId à App pour chercher les détails du film
     useEffect(() => {
@@ -61,12 +67,9 @@ function ShowMovie(props) {
     }
 
     //switch pour ajouter/supprimer des favoris
-    const handleFavoriteClick = () => {
-        if (isFavorite(currentMovie.id)) {
-            onUnfavorite(currentMovie.id);
-        } else {
-            onFavorite(currentMovie);
-        }
+    const handleFavoriteClick = async () => {
+        await onFavorite(movieId);
+        setIsInFavorites(!isInFavorites);
     }
 
     //supprime la note du stockage local et envoie requete de supression à l'api
@@ -128,7 +131,7 @@ const handleAddComment = async () => {
 
                     {/* Montre les entreprises de prod */}
                     <p className="normalText"> Produit par:{" "}
-                        {currentMovie.production_companies.map((company, index, array) => (
+                        {currentMovie.production_companies && currentMovie.production_companies.map((company, index, array) => (
                             <React.Fragment key={index}>
                                 {company.name}
                                 {index !== array.length - 1 ? ", " : ""}
@@ -192,7 +195,7 @@ const handleAddComment = async () => {
                         <div className="otherButtons">
                             {/* Favories */}
                             <button className="favoriteButton" onClick={handleFavoriteClick}>
-                                {isFavorite(currentMovie.id) ? "Retirer des favoris" : "Ajouter aux favoris"} <FontAwesomeIcon icon={faStar} />
+                                {isInFavorites ? "Retirer des favoris" : "Ajouter aux favoris"} <FontAwesomeIcon icon={faStar} />
                             </button>
                             <button className="backButton" onClick={handleBackClick}>Retour <FontAwesomeIcon icon={faArrowLeft} /></button>
                         </div>

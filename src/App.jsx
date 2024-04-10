@@ -23,10 +23,7 @@ function App() {
   //gestion commentaire
   const [comment, setComment] = useState("");
   //gestion des films favoris: on les récupère de localstorage, si localstorage est vide initialization d'une liste vide
-  const [favorites, setFavorites] = useState(() => {
-    const storedFavorites = localStorage.getItem('favorites');
-    return storedFavorites ? JSON.parse(storedFavorites) : [];
-  });
+  const [favorites, setFavorites] = useState([]);
   //idem pour les notes
   const [ratings, setRatings] = useState(() => {
     const storedRatings = localStorage.getItem('ratings');
@@ -109,15 +106,9 @@ function App() {
     const fetchMovieDetails = async () => {
       try {
         setCurrentMovie(null);
-        const favoriteMovie = favorites.find(movie => movie.id === parseInt(currentMovieId));
-            if (favoriteMovie) {
-                // si le film est dans les favs, on utilise la copie local au lieu de le récuperer à nouveau
-                setCurrentMovie(favoriteMovie);
-            } else {
-              const response = await fetch(`${baseUrl}/movie/${currentMovieId}?&append_to_response=credits&language=fr`, options.get);
-              const jsonData = await response.json();
-              setCurrentMovie(jsonData);
-            }
+        const response = await fetch(`${baseUrl}/movie/${currentMovieId}?&append_to_response=credits&language=fr`, options.get);
+        const jsonData = await response.json();
+        setCurrentMovie(jsonData);
       } catch (error) {
         console.error("Erreur:", error);
       }
@@ -135,26 +126,63 @@ function App() {
         const jsonData = await response.json();
         setAllCategories(jsonData.genres);
       } catch (error) {
-        console.error("Error fetching categories:", error);
-        return null; // Return null in case of error
+        console.error("Erreur:", error);
+        return null;
       }
     });
     fetchCategories();
   }, []);
 
-  //ajoute un film au favs
-  const addToFavorites = (movie) => {
-    setFavorites(prevFavorites => [...prevFavorites, movie]);
-  };
+  //recup les films favoris
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      try {
+        const response = await fetch(`${baseUrl}/account/${options.account_id}/favorite/movies?`, options.get)
+        const jsonData = await response.json();
+        setFavorites(jsonData.results);
+      } catch (error) {
+        console.error("Erreur:", error);
+      }
+    };
+    fetchFavorites()
+  }, []);
 
-  //enlève un film des favs
-  const removeFromFavorites = (movieId) => {
-    setFavorites(prevFavorites => prevFavorites.filter(movie => movie.id !== movieId));
+  //ajoute/enlève un film au favs
+  const flipFavorite = async (movieId) => {
+    try {
+      //bool pour savoir si un film est déjà en favori ou pas
+      let boolAdd = !isFavorite(movieId);
+      const response = await fetch(`${baseUrl}/account/${options.account_id}/favorite`, {
+        method: 'POST',
+        headers: {
+          'Authorization': options.get.headers.Authorization,
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          media_type: 'movie',
+          media_id: movieId,
+          favorite: boolAdd
+        })
+      });
+      if (response.ok) {
+        if (boolAdd){
+          console.log('Film ajouté au favoris avec succès');
+        } else {
+          console.log('Film supprimé des favoris avec succès');
+        }
+      } else {
+        console.error('Erreur lors de l\'ajout du film');
+      }
+    } catch (error) {
+      console.error("Erreur:", error);
+    }
   };
 
   //verif si un film est fav
   const isFavorite = (movieId) => {
-    return favorites.some(movie => movie.id === movieId);
+    const favoriteMovieIds = favorites.map(favorite => favorite.id); 
+    return favoriteMovieIds.includes(Number(movieId));
   };
 
   //enregistre les films favoris quand le state favorites est modif
@@ -291,8 +319,7 @@ function App() {
             element={<ShowMovie 
               currentMovie={currentMovie} 
               onMovie={setCurrentMovieId} 
-              onFavorite={addToFavorites} 
-              onUnfavorite={removeFromFavorites} 
+              onFavorite={flipFavorite} 
               isFavorite={isFavorite} 
               onRating={setRating} 
               hasRating={hasRating}

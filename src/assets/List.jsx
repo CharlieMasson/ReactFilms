@@ -24,21 +24,21 @@ function ListMovies(props) {
         return <p>Chargement...</p>;
     }
 
-  return (
-    <section className="parentMovies">
-        <ul className="movies">
-            { displayMovies }
-        </ul>
-        {favoriteMovies.length > 0 && (
-            <React.Fragment>
-                <h2 className="favoritesTitle"><FontAwesomeIcon icon={faStar} /> Films Favoris: </h2>
-                <ul className="movies">
-                    { displayFavoriteMovies }
-                </ul>
-            </React.Fragment>
-        )}
-    </section>
-  );
+    return (
+        <section className="parentMovies">
+            <ul className="movies">
+                { displayMovies }
+            </ul>
+            {favoriteMovies && favoriteMovies.length > 0 && (
+                <React.Fragment>
+                    <h2 className="favoritesTitle"><FontAwesomeIcon icon={faStar} /> Films Favoris: </h2>
+                    <ul className="movies">
+                        { displayFavoriteMovies }
+                    </ul>
+                </React.Fragment>
+            )}
+        </section>
+    );
 }
 
 export default ListMovies;
