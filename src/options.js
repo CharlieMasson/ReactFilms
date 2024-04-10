@@ -6,8 +6,8 @@ const options = {
       Authorization: ''
     }
   },
-  api_key: "",
-  account_id: ""
+  api_key: '',
+  account_id: ''
 };
 
 export default options;

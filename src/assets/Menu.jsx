@@ -1,7 +1,7 @@
 import { useNavigate  } from 'react-router-dom';
 import React from 'react';
 import '../../styles/Menu.sass';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faFilm } from '@fortawesome/free-solid-svg-icons';
 
 

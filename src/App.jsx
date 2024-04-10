@@ -73,7 +73,6 @@ function App() {
     const fetchMoviesBySearch = async () => {
       try {
         const response = await fetch(`${baseUrl}/search/multi?query=${search}&language=fr`, options.get);
-        //const response = await fetch(`${baseUrl}/search/movie?query=${search}&language=fr`, options.get);
         const jsonData = await response.json();
         console.log(jsonData);
         setMovies(jsonData.results);
@@ -145,7 +144,7 @@ function App() {
       }
     };
     fetchFavorites()
-  }, []);
+  }, [favorites]);
 
   //ajoute/enlève un film au favs
   const flipFavorite = async (movieId) => {

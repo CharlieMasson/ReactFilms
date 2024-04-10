@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import moment from 'moment';
 import { useParams, useNavigate } from 'react-router-dom';
+import moment from 'moment';
 import '../../styles/ShowMovie.sass';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faFloppyDisk, faStar, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 function ShowMovie(props) {

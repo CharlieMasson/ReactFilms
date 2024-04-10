@@ -1,6 +1,6 @@
+import { useNavigate  } from 'react-router-dom';
 import React from 'react';
 import moment from 'moment';
-import { useNavigate  } from 'react-router-dom';
 
 function ListIndividualMovie(props) {
     const { movie, isFavorite } = props;

@@ -1,14 +1,11 @@
 import React from 'react';
-import { useNavigate  } from 'react-router-dom';
+import ListIndividualMovie from "./ListIndividualMovie";
 import '../../styles/List.sass';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from '@fortawesome/free-solid-svg-icons';
-import ListIndividualMovie from "./ListIndividualMovie";
 
 function ListMovies(props) {
     const { movies, isFavorite, favoriteMovies } = props;
-    
-    const navigate = useNavigate();
 
     //liste des films
     let displayMovies = movies?.map(movie => (
